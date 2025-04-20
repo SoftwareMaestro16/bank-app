@@ -8,7 +8,7 @@ export default function HomeScreen({ navigation }) {
         className="bg-red-500 p-3 rounded"
         onPress={() => navigation.navigate('Profile')}
       >
-        <Text className="text-white">Go to Profile</Text>
+        <Text className="text-white text-3xl">Go to Profile</Text>
       </TouchableOpacity>
       <TouchableOpacity
         className="bg-green-500 p-3 rounded mt-4"

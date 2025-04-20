@@ -8,7 +8,7 @@ export default function ProfileScreen({ navigation }) {
         className="bg-pink-500 p-3 rounded w-[90vw]"
         onPress={() => navigation.navigate('Home')}
       >
-        <Text className="text-white text-3xl text-center">Go to Home</Text>
+        <Text className="text-white text-5xl text-center">Go to Home</Text>
       </TouchableOpacity>
     </View>
   );
