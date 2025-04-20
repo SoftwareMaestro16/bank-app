@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import { Image } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -27,14 +28,39 @@ function TabNavigator() {
         tabBarInactiveTintColor: '#6b7280', 
       }}
     >
+
       <Tab.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          headerShown: false, 
-          tabBarLabel: 'Home',
+            headerShown: false,
+            tabBarLabel: 'Home',
+            tabBarIcon: ({ focused }) => {
+
+            const localIconSource = focused // local
+                ? require('../assets/images.png') // active
+                : require('../assets/favicon.png'); // !== active
+
+            const urlIconSource = { // url
+                uri: focused
+                ? 'https://atlas-content-cdn.pixelsquid.com/stock-images/usd-symbol-dollar-sign-VRZr0Q7-600.jpg' // active
+                : 'https://atlas-content-cdn.pixelsquid.com/stock-images/usd-symbol-dollar-sign-VRZr0Q7-600.jpg', // !== active
+            };
+
+            return (
+                <Image
+                source={localIconSource} // Local IMG
+                // source={urlIconSource} // URL
+                style={{
+                    width: 28, 
+                    height: 28,
+                    // tintColor: focused ? '#1d4ed8' : '#6b7280', 
+                }}
+                />
+            );
+            },
         }}
-      />
+        />
       <Tab.Screen
         name="Profile"
         component={ProfileScreen}
