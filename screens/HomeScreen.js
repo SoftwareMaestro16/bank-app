@@ -9,12 +9,12 @@ import {
     Image,
     ScrollView,
   } from 'react-native';
-  import { Line } from '../components/Line';
-  import { LinearGradient } from 'expo-linear-gradient';
-  import { useState } from 'react';
-  import { IconButton } from 'react-native-paper';
+import { Line } from '../components/Line';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useState } from 'react';
+import { IconButton } from 'react-native-paper';
   
-  export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation }) {
     const [cardNumberVisibility, setCardNumberVisibility] = useState(false);
   
     const paddingTop = Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0;
@@ -189,6 +189,7 @@ import {
             <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
             contentContainerStyle={{ 
                 gap: 1,     
                 paddingHorizontal: 22,
@@ -216,4 +217,4 @@ import {
         </LinearGradient>
       </>
     );
-  }
+}

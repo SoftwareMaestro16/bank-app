@@ -4,11 +4,11 @@
     "slug": "bank",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/finbank-logo.jpg",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/images/finbank-logo.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#0a0a0a"
     },
@@ -20,12 +20,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/images/finbank-logo.jpg",
         "backgroundColor": "#0a0a0a"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/images/finbank-logo.jpg"
     },
     "plugins": [
       "expo-font"

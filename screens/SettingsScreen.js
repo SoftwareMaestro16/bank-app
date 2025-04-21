@@ -1,14 +1,14 @@
-import { Text, View, TouchableOpacity, StatusBar, Image, Linking, SafeAreaView, Modal, Pressable } from 'react-native';
+import { Text, View, TouchableOpacity, StatusBar, Image, Linking, SafeAreaView, Modal, Pressable, Platform } from 'react-native';
 import { Line } from '../components/Line';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { IconButton } from 'react-native-paper';
 import { useState } from 'react';
 
 export default function SettingsScreen({ navigation }) {
   const [exitModalVisible, setExitModalVisible] = useState(false);
 
-  const insets = useSafeAreaInsets();
+  const paddingTop = Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0;
+
 
   return (
     <>
@@ -20,7 +20,7 @@ export default function SettingsScreen({ navigation }) {
         start={{ x: 0, y: 0 }} 
         end={{ x: 1, y: 1 }}  
       >
-         <SafeAreaView style={{ flex: 1, paddingTop: insets.top }}>
+         <SafeAreaView style={{ flex: 1, paddingTop}}>
         <View className="flex-1 justify-between p-6">
           <View className="mt-5 py-1 px-1 flex items-start justify-start gap-2">  
           <TouchableOpacity 
