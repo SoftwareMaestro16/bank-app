@@ -57,7 +57,7 @@ import {
                     iconColor='white'
                     size={40}
                     animated
-                    onPress={() => console.log('Pressed')}
+                    onPress={() => navigation.navigate('Profile')}
                 />
                 </Pressable>
                 <Pressable onPress={() => navigation.navigate('Notifications')}>
@@ -66,7 +66,7 @@ import {
                     iconColor='white'
                     size={37}
                     animated
-                    onPress={() => console.log('Pressed')}
+                    onPress={() => navigation.navigate('Notifications')}
                 />
                 </Pressable>
               </View>

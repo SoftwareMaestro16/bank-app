@@ -23,6 +23,9 @@ export default function AboutScreen({  }) {
                 <Line className="text-2xl">
                     No real money is transferred, stored, or managed through this app. All data, balances, and operations presented within the application are fictitious and exist only for demonstration and testing purposes.
                 </Line>
+                <Line className="text-xl mt-5 text-gray-200">
+                    Technologies: React Native, JavsScript, TailwindCSS (Nativewind), NodeJS, Express.
+                </Line>
             </View>            
         </View>
       </LinearGradient>
