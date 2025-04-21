@@ -9,6 +9,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import ProfileScreen from '../screens/additional/ProfileScreen';
 import NotificationsScreen from '../screens/additional/NotificationsScreen';
 import AboutScreen from '../screens/additional/AboutScreen';
+import CardInfoScreen from '../screens/additional/CardInfoScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -152,6 +153,16 @@ export default function AppNavigator() {
           component={AboutScreen}
           options={{
             title: 'About',
+            headerTitleAlign: 'center',
+            headerBackTitleVisible: false,
+            headerBackTitle: '',
+          }}
+        />
+        <Stack.Screen
+          name="Card Info"
+          component={CardInfoScreen}
+          options={{
+            title: 'Card Info',
             headerTitleAlign: 'center',
             headerBackTitleVisible: false,
             headerBackTitle: '',

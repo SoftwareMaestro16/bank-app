@@ -28,7 +28,7 @@ export default function App() {
       Toast.show({
         type: 'custom',
         text1: 'Connected!',
-        text2: 'You are back online.',
+        text2: 'You are online.',
       });
     }
   }, [netInfo.isConnected]);

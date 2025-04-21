@@ -14,9 +14,16 @@ export default function AboutScreen({  }) {
         end={{ x: 1, y: 1 }}  
       >
   
-        <View className="flex-1  items-center justify-center">
-        <Line className="text-2xl mb-4">About</Line>
-        
+        <View className="flex mt-5 items-center justify-center">
+            <View className="p-6">
+                <Line className="text-2xl">
+                    This application is a simulation of a banking system, developed solely for experimental and educational purposes. It is designed to mimic the look and feel of a real banking experience, but does not perform any actual financial transactions.
+                </Line>
+                <Line>{"  "}</Line>
+                <Line className="text-2xl">
+                    No real money is transferred, stored, or managed through this app. All data, balances, and operations presented within the application are fictitious and exist only for demonstration and testing purposes.
+                </Line>
+            </View>            
         </View>
       </LinearGradient>
     </>
