@@ -114,7 +114,9 @@ export default function App() {
   }
 
   return (
-    <SafeAreaProvider>
+    <>
+      {/* <StatusBar animated barStyle="light-content" backgroundColor="#0a0a0a" /> */}
+      <SafeAreaProvider>
       <View style={styles.container}>
         <AppNavigator
           isLoggedIn={isLoggedIn}
@@ -125,6 +127,8 @@ export default function App() {
       </View>
       <StatusBar style="auto" />
     </SafeAreaProvider>
+    </>
+    
   );
 }
 

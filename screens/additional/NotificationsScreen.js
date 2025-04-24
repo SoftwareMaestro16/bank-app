@@ -1,29 +1,37 @@
 import { Text, View, TouchableOpacity, StatusBar, ScrollView } from 'react-native';
 import { Line } from '../../components/Line';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NotificationScreen({ navigation }) {
+  const [notifications, setNotifications] = useState([]);
 
-  const notifications = [
-    {
-      id: 1,
-      date: '28 Feb, 16:47',
-      content:
-        'Dear Customer,\nWe attempted to process your recent payment, but it was declined due to insufficient funds in your account. Please ensure your balance is sufficient and try again.',
-    },
-    {
-      id: 2,
-      date: '1 Mar, 09:15',
-      content:
-        'Your subscription has been renewed successfully. Thank you for being with us.',
-    },
-    {
-      id: 3,
-      date: '2 Mar, 12:30',
-      content:
-        'Reminder: Your account password will expire soon. Please update it to maintain access.',
-    },
-  ];
+  const fetchNotifications = async () => {
+    try {
+      const token = await AsyncStorage.getItem('authToken');
+      if (!token) {
+        navigation.navigate('Login');
+        return;
+      }
+
+      const response = await axios.get('https://bank-server-pq6u.onrender.com/notifications', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setNotifications(response.data);
+    } catch (error) {
+      if (error.response?.status === 401) {
+        navigation.navigate('Login');
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
 
   return (
     <>
@@ -36,23 +44,25 @@ export default function NotificationScreen({ navigation }) {
       >
         <ScrollView showsHorizontalScrollIndicator={false}>
           <View className="p-6">
-            {notifications.map((notif) => (
-              <TouchableOpacity
-                key={notif.id}
-                onPress={() =>
-                  navigation.navigate('NotificationDetail', {
-                    date: notif.date,
-                    content: notif.content,
-                  })
-                }
-                className="flex-col mt-2 border-b border-b-gray-300/20"
-              >
-                <Line className="text-gray-400 text-md">{notif.date}</Line>
-                <Line className="text-lg line-clamp-3 mb-1">
-                  {notif.content}
-                </Line>
-              </TouchableOpacity>
-            ))}
+            {notifications.length > 0 ? (
+              notifications.map((notif) => (
+                <TouchableOpacity
+                  key={notif._id.toString()}
+                  onPress={() =>
+                    navigation.navigate('NotificationDetail', {
+                      date: new Date(notif.date).toLocaleDateString(),
+                      content: notif.message,
+                    })
+                  }
+                  className="flex-col mt-2 border-b border-b-gray-300/20"
+                >
+                  <Text className="text-gray-500 text-lg">{new Date(notif.date).toLocaleDateString()}</Text>
+                  <Line className="text-lg line-clamp-3 mb-1">{notif.message}</Line>
+                </TouchableOpacity>
+              ))
+            ) : (
+              <Text className="text-white text-center mt-5 text-lg">No notifications available</Text>
+            )}
           </View>
         </ScrollView>
       </LinearGradient>

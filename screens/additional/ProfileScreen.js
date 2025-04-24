@@ -9,8 +9,7 @@ export default function ProfileScreen({ userData }) {
 
   return (
     <>
-      <StatusBar animated barStyle="light-content" backgroundColor="#0a0a0a" />      
-      
+      <StatusBar animated barStyle="light-content" backgroundColor="#0a0a0a" />       
       <LinearGradient
         colors={['#171717', '#0a0a0a', '#0a0a0a', '#0a0a0a', '#171717']}  
         style={{ flex: 1 }}  

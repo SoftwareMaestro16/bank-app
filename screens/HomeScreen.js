@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import { Line } from '../components/Line';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -29,6 +29,8 @@ export default function HomeScreen({ navigation, userData }) {
 
   if (!userData || !userData.userCards?.cards?.length) {
     return (
+      <>
+      <StatusBar animated barStyle="light-content" backgroundColor="#0a0a0a" />      
       <LinearGradient
         colors={['#171717', '#0a0a0a', '#0a0a0a', '#0a0a0a', '#171717']}
         style={{ flex: 1 }}
@@ -60,6 +62,7 @@ export default function HomeScreen({ navigation, userData }) {
           </View>
         </SafeAreaView>
       </LinearGradient>
+      </>
     );
   }
 

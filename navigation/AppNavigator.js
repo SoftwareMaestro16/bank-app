@@ -138,7 +138,12 @@ export default function AppNavigator({ isLoggedIn, setIsLoggedIn, userData }) {
               name="Profile"
               options={{ title: 'Profile', headerTitleAlign: 'center' }}
             >
-              {(props) => <ProfileScreen {...props} userData={userData} />}
+              {(props) => (
+                <ProfileScreen
+                  {...props}
+                  userData={userData || { firstName: '', lastName: '', email: '' }} // Provide default values if userData is null
+                />
+              )}
             </Stack.Screen>
             <Stack.Screen
               name="Notifications"
