@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Image } from 'react-native';
+import { Image, ActivityIndicator, View } from 'react-native';
 import HomeScreen from '../screens/HomeScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import PaymentsScreen from '../screens/PaymentsScreen';
@@ -11,11 +11,13 @@ import NotificationsScreen from '../screens/additional/NotificationsScreen';
 import AboutScreen from '../screens/additional/AboutScreen';
 import CardInfoScreen from '../screens/additional/CardInfoScreen';
 import NotificationDetailScreen from '../components/NofificationsDetailScreen';
+import RegisterScreen from '../screens/account/RegisterScreen';
+import LoginScreen from '../screens/account/LoginScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function TabNavigator() {
+function MainTabs({ setIsLoggedIn, userData }) {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -36,7 +38,6 @@ function TabNavigator() {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
         options={{
           headerShown: false,
           tabBarLabel: 'Home',
@@ -51,7 +52,9 @@ function TabNavigator() {
             />
           ),
         }}
-      />
+      >
+        {(props) => <HomeScreen {...props} userData={userData} />}
+      </Tab.Screen>
       <Tab.Screen
         name="History"
         component={HistoryScreen}
@@ -90,7 +93,6 @@ function TabNavigator() {
       />
       <Tab.Screen
         name="Settings"
-        component={SettingsScreen}
         options={{
           headerShown: false,
           tabBarLabel: 'Settings',
@@ -105,80 +107,76 @@ function TabNavigator() {
             />
           ),
         }}
-      />
+      >
+        {(props) => <SettingsScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }
 
-export default function AppNavigator() {
+export default function AppNavigator({ isLoggedIn, setIsLoggedIn, userData }) {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="⠀⠀"
+        initialRouteName={isLoggedIn ? 'MainTabs' : 'Login'}
         screenOptions={{
-          headerBackTitleVisible: false, 
-          headerBackTitle: '', 
-          headerStyle: {
-            backgroundColor: '#141414',
-          },
+          headerBackTitleVisible: false,
+          headerBackTitle: '⠀⠀⠀',
+          headerStyle: { backgroundColor: '#141414' },
           headerTintColor: '#fff',
         }}
       >
-        <Stack.Screen
-          name="⠀⠀" 
-          component={TabNavigator}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{
-            title: 'Profile',
-            headerTitleAlign: 'center',
-            headerBackTitleVisible: false, 
-            headerBackTitle: '', 
-          }}
-        />
-        <Stack.Screen
-          name="Notifications"
-          component={NotificationsScreen}
-          options={{
-            title: 'Notifications',
-            headerTitleAlign: 'center',
-            headerBackTitleVisible: false,
-            headerBackTitle: '',
-          }}
-        />
-        <Stack.Screen
-          name="About"
-          component={AboutScreen}
-          options={{
-            title: 'About',
-            headerTitleAlign: 'center',
-            headerBackTitleVisible: false,
-            headerBackTitle: '',
-          }}
-        />
-        <Stack.Screen
-          name="Card Info"
-          component={CardInfoScreen}
-          options={{
-            title: 'Card Info',
-            headerTitleAlign: 'center',
-            headerBackTitleVisible: false,
-            headerBackTitle: '',
-          }}
-        />
-        <Stack.Screen
-          name="NotificationDetail"
-          component={NotificationDetailScreen}
-          options={{
-            title: 'Notification',
-            headerTitleAlign: 'center',
-            headerBackTitleVisible: false,
-            headerBackTitle: '⠀⠀',
-          }}
-        />
+        {isLoggedIn ? (
+          <>
+            <Stack.Screen
+              name="MainTabs"
+              options={{ title: '⠀⠀⠀', headerShown: false }}
+            >
+              {(props) => <MainTabs {...props} setIsLoggedIn={setIsLoggedIn} userData={userData} />}
+            </Stack.Screen>
+            <Stack.Screen
+              name="Profile"
+              options={{ title: 'Profile', headerTitleAlign: 'center' }}
+            >
+              {(props) => <ProfileScreen {...props} userData={userData} />}
+            </Stack.Screen>
+            <Stack.Screen
+              name="Notifications"
+              component={NotificationsScreen}
+              options={{ title: 'Notifications', headerTitleAlign: 'center' }}
+            />
+            <Stack.Screen
+              name="About"
+              component={AboutScreen}
+              options={{ title: 'About', headerTitleAlign: 'center' }}
+            />
+            <Stack.Screen
+              name="Card Info"
+              component={CardInfoScreen}
+              options={{ title: 'Card Info', headerTitleAlign: 'center' }}
+            />
+            <Stack.Screen
+              name="NotificationDetail"
+              component={NotificationDetailScreen}
+              options={{ title: 'Notification', headerTitleAlign: 'center', headerBackTitle: '⠀⠀⠀' }}
+            />
+          </> 
+        ) : (
+          <>
+            <Stack.Screen
+              name="Login"
+              options={{ headerShown: false }}
+            >
+              {(props) => <LoginScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
+            </Stack.Screen>
+            <Stack.Screen
+              name="Register"
+              options={{ headerShown: false }}
+            >
+              {(props) => <RegisterScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
+            </Stack.Screen>
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

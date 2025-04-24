@@ -1,8 +1,12 @@
-import { Text, View, TouchableOpacity, StatusBar, Image, Button } from 'react-native';
+import { Text, View, TouchableOpacity, StatusBar, Image, Button, ActivityIndicator } from 'react-native';
 import { Line } from '../../components/Line';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-export default function ProfileScreen({  }) {
+export default function ProfileScreen({ userData }) {
+
   return (
     <>
       <StatusBar animated barStyle="light-content" backgroundColor="#0a0a0a" />      
@@ -22,17 +26,19 @@ export default function ProfileScreen({  }) {
                         style={{ width: 29, height: 29 }}
                         resizeMode="contain"
                     />
-                    <Line className="text-2xl">Eduard Kuzmin</Line>
+                    <Line className="text-2xl">{userData.firstName} {userData.lastName}</Line>
                 </View>
 
                 <View className="flex-row items-center gap-1 w-full py-2 border-b border-white">
                     <Image
+                    
                         source={require('../../assets/images/icons/id.png')} 
                         style={{ width: 29, height: 29 }}
                         resizeMode="contain"
                     />
                     <Line className="text-xl">2009005112378</Line>
                 </View>
+                
 
                 <View className="flex-row items-center gap-1 w-full py-2 border-b border-white">
                     <Image
@@ -49,7 +55,7 @@ export default function ProfileScreen({  }) {
                         style={{ width: 29, height: 29 }}
                         resizeMode="contain"
                     />
-                    <Line className="text-md">No. 89, Zhongshan Avenue West, Tianhe District</Line>
+                    <Line className="text-md">{userData.address}</Line>
                 </View>
 
                 <View className="flex-row items-center gap-1 w-full mt-2 mb-1">
@@ -58,7 +64,7 @@ export default function ProfileScreen({  }) {
                         style={{ width: 29, height: 29 }}
                         resizeMode="contain"
                     />
-                    <Line className="text-xl">+86 139 8765 4321</Line>
+                    <Line className="text-xl">{userData.phoneNumber}</Line>
                 </View> 
 
             </View>
