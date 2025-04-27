@@ -71,7 +71,7 @@ export default function HistoryScreen({ navigation }) {
               >
                 <View className="flex-col">
                   {transactions.length > 0 ? (
-                    transactions.map((transaction) => (
+                    [...transactions].reverse().map((transaction) => ( // Reverse the array
                       <View
                         key={transaction._id.toString()}
                         className="bg-gray-400/20 rounded-xl h-[55px] flex-row items-center justify-between mb-1"
@@ -94,7 +94,7 @@ export default function HistoryScreen({ navigation }) {
                       </View>
                     ))
                   ) : (
-                    <Text className="text-white mt-5 text-center text-lg">No transactions available</Text>
+                    <Text className="text-white mt-5 text-center text-lg">No transactions available.</Text>
                   )}
                 </View>
               </ScrollView>

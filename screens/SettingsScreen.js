@@ -12,12 +12,8 @@ export default function SettingsScreen({ navigation, setIsLoggedIn }) {
 
   const handleLogout = async () => {
     try {
-      console.log('Logging out...');
-      await AsyncStorage.removeItem('authToken');
-      console.log('Token removed from AsyncStorage');
-      setIsLoggedIn(false);
-      setExitModalVisible(false);
-      console.log('Navigated to Login screen');
+      await AsyncStorage.clear(); 
+      setIsLoggedIn(false); 
     } catch (error) {
       console.error('Error during logout:', error.message);
       alert('Failed to log out. Please try again.');

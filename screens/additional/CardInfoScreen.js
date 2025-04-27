@@ -13,19 +13,28 @@ const toastConfig = {
     ),
 };
 
-export default function CardInfoScreen({  }) {
+export default function CardInfoScreen({ userData }) {
   const [CVVNumberVisibility, setCVVNumberVisibility] = useState(false);
 
   function changeCVVVisibility() {
     setCVVNumberVisibility((prev) => !prev);
   }
 
-  const cardNumber = '5397 3812 4834 9144';
+  function formatCardNumber(cardNumber) {
+    return cardNumber.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+  }
+
+  const card = userData?.userCards?.cards?.[0];
+
+  const formattedDate = new Date(card.expirationDate).toLocaleDateString('en-GB', {
+    month: '2-digit',
+    year: 'numeric',
+  }).replace(' ', '/');
 
   const handleCopy = () => {
-    Clipboard.setString(cardNumber);
+    Clipboard.setString(card.cardNumber);
     Toast.show({
-        type: 'custom',
+        type: 'success',
         text1: 'Successfully!',
         text2: 'Card number copied.',
     });
@@ -56,7 +65,7 @@ export default function CardInfoScreen({  }) {
                 </Line>
                 <View className="flex-row items-center">
                     <Line className="text-2xl mb-3">
-                        5397 3812 4834 9144
+                        {formatCardNumber(card.cardNumber)}
                     </Line>
 
                     <IconButton
@@ -69,9 +78,7 @@ export default function CardInfoScreen({  }) {
                         onPressIn={handleCopy}
                     />
                
-
-                </View>
-                
+                </View> 
             </View>
 
             <ScrollView 
@@ -82,19 +89,19 @@ export default function CardInfoScreen({  }) {
                 <View className="flex-col mt-1 w-full">
                     <View className="flex-row justify-between items-center w-full ">
                         <Line className="text-2xl">Type:</Line>
-                        <Line className="font-semibold text-2xl mr-2">mastercard</Line>
+                        <Line className="font-semibold text-2xl mr-2">{(card.type).toLowerCase()}</Line>
                     </View>
 
-                    <View className="flex-row justify-between items-centerw-full mt-1 ">
+                    <View className="flex-row justify-between items-center w-full mt-1 ">
                         <Line className="text-2xl">Expires:</Line>
-                        <Line className="font-semibold text-2xl mr-2">11/2028</Line>
+                        <Line className="font-semibold text-2xl mr-2">{formattedDate}</Line>
                     </View>
 
                     <View className="flex-row justify-between items-center mt-1 w-full ">
                         <Line className="text-2xl">CVV:</Line>
                         <View className="flex-row items-center gap-2">
                             <Line className="text-2xl font-medium">
-                            {CVVNumberVisibility ? '523' : '•••'}
+                            {CVVNumberVisibility ? card.cvv : '•••'}
                             </Line>
                             <Pressable onPress={changeCVVVisibility}>
                             <Image
@@ -113,12 +120,12 @@ export default function CardInfoScreen({  }) {
 
                     <View className="flex-row justify-between items-center mt-1 border-b  border-b-white">
                         <Line className="text-2xl">Balance:</Line>
-                        <Line className="font-semibold text-2xl mr-2 mb-2">145.34 USD</Line>
+                        <Line className="font-semibold text-2xl mr-2 mb-2">{card.balance}</Line>
                     </View>
 
                     <View className="flex-row justify-between items-center w-full mt-2">
                         <Line className="text-2xl">Receiver:</Line>
-                        <Line className="font-semibold text-2xl mr-2">Eduard Kuzmin</Line>
+                        <Line className="font-semibold text-2xl mr-2">{(userData.firstName + userData.lastName).trim()}</Line>
                     </View>
 
                     <View className="flex-row justify-between items-center w-full mt-2">
@@ -159,15 +166,11 @@ export default function CardInfoScreen({  }) {
                     <View className="flex-row justify-between items-centerw-full mt-1 ">
                         <Line className="text-2xl">BIC/SWIFT:</Line>
                         <Line className="BIC/SWIFT text-2xl">AGKNMF4RXXX</Line>
-                    </View>
-                    
+                    </View>  
                 </View>
             </ScrollView> 
-           
-                
-                  
+                      
         </View>
-
         </View>
         
       </LinearGradient>

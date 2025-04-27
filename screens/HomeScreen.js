@@ -55,6 +55,7 @@ export default function HomeScreen({ navigation, userData }) {
                 animated
               />
             </Pressable>
+            
           </View>
           <View className="flex-1 justify-center items-center">
             <ActivityIndicator size="large" color="#ffffff" />
@@ -144,16 +145,20 @@ export default function HomeScreen({ navigation, userData }) {
           </Pressable>
 
           <View className="flex-row justify-center mt-12 xs:mt-6 gap-8 items-center">
+            
             <View className="flex-col items-center gap-2">
-              <View className="w-10 h-10 p-9 rounded-full bg-gray-200/20 justify-center items-center">
+              <TouchableOpacity onPress={() => navigation.navigate('Transfer')}>
+                <View className="w-10 h-10 p-9 rounded-full bg-gray-200/20 justify-center items-center">
                 <Image
                   source={require('../assets/images/card-actions/transfer.png')}
                   style={{ width: 37, height: 37 }}
                   resizeMode="contain"
                 />
-              </View>
-              <Line className="text-lg">Transfer</Line>
+               </View>
+               <Line className="text-lg">Transfer</Line>
+              </TouchableOpacity>
             </View>
+
             <View className="flex-col items-center gap-2">
               <View className="w-10 h-10 p-9 rounded-full bg-gray-200/20 justify-center items-center">
                 <Image

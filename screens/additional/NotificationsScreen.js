@@ -61,7 +61,7 @@ export default function NotificationScreen({ navigation }) {
                 </TouchableOpacity>
               ))
             ) : (
-              <Text className="text-white text-center mt-5 text-lg">No notifications available</Text>
+              <Text className="text-white text-center mt-5 text-lg">No notifications available.</Text>
             )}
           </View>
         </ScrollView>

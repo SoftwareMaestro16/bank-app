@@ -2,6 +2,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Image, ActivityIndicator, View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { useEffect } from 'react';
 import HomeScreen from '../screens/HomeScreen';
 import HistoryScreen from '../screens/HistoryScreen';
 import PaymentsScreen from '../screens/PaymentsScreen';
@@ -13,6 +16,7 @@ import CardInfoScreen from '../screens/additional/CardInfoScreen';
 import NotificationDetailScreen from '../components/NofificationsDetailScreen';
 import RegisterScreen from '../screens/account/RegisterScreen';
 import LoginScreen from '../screens/account/LoginScreen';
+import TransferScreen from '../screens/additional/TransferScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -114,7 +118,27 @@ function MainTabs({ setIsLoggedIn, userData }) {
   );
 }
 
-export default function AppNavigator({ isLoggedIn, setIsLoggedIn, userData }) {
+export default function AppNavigator({ isLoggedIn, setIsLoggedIn, userData, setUserData }) {
+  const fetchUserData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('authToken');
+      if (token) {
+        const response = await axios.get('https://bank-server-pq6u.onrender.com/user', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUserData(response.data); // Update userData with fresh data
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchUserData(); // Fetch user data after login
+    }
+  }, [isLoggedIn]);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -141,7 +165,7 @@ export default function AppNavigator({ isLoggedIn, setIsLoggedIn, userData }) {
               {(props) => (
                 <ProfileScreen
                   {...props}
-                  userData={userData || { firstName: '', lastName: '', email: '' }} // Provide default values if userData is null
+                  userData={userData || { firstName: '', lastName: '', email: '' }} 
                 />
               )}
             </Stack.Screen>
@@ -157,14 +181,21 @@ export default function AppNavigator({ isLoggedIn, setIsLoggedIn, userData }) {
             />
             <Stack.Screen
               name="Card Info"
-              component={CardInfoScreen}
               options={{ title: 'Card Info', headerTitleAlign: 'center' }}
-            />
+            >
+              {(props) => <CardInfoScreen {...props} userData={userData} />}
+            </Stack.Screen>
             <Stack.Screen
               name="NotificationDetail"
               component={NotificationDetailScreen}
               options={{ title: 'Notification', headerTitleAlign: 'center', headerBackTitle: '⠀⠀⠀' }}
             />
+            <Stack.Screen
+              name="Transfer"
+              options={{ title: 'Transfer', headerTitleAlign: 'center' }}
+            >
+              {(props) => <TransferScreen {...props} userData={userData} />}
+            </Stack.Screen>
           </> 
         ) : (
           <>

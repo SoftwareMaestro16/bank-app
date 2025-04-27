@@ -25,7 +25,7 @@ export default function ProfileScreen({ userData }) {
                         style={{ width: 29, height: 29 }}
                         resizeMode="contain"
                     />
-                    <Line className="text-2xl">{userData.firstName} {userData.lastName}</Line>
+                    <Line className="text-2xl">{(userData.firstName + userData.lastName).trim()}</Line>
                 </View>
 
                 <View className="flex-row items-center gap-1 w-full py-2 border-b border-white">
