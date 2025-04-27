@@ -13,11 +13,38 @@ import {
 import { Line } from '../components/Line';
 import { LinearGradient } from 'expo-linear-gradient';
 import { IconButton } from 'react-native-paper';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function HomeScreen({ navigation, userData }) {
+export default function HomeScreen({ navigation, userData, setUserData }) {
   const [cardNumberVisibility, setCardNumberVisibility] = useState(false);
   const paddingTop = Platform.OS === 'android' ? StatusBar.currentHeight || 0 : 0;
+
+  async function updateData() {
+    try {
+      const authToken = await AsyncStorage.getItem('authToken'); 
+      if (!authToken) {
+        throw new Error('Authentication token not found');
+      }
+
+      const response = await fetch('https://bank-server-pq6u.onrender.com/auth/me', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`, 
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const updatedData = await response.json();
+      setUserData(updatedData); 
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  }
 
   function changeCardVisibility() {
     setCardNumberVisibility((prev) => !prev);
@@ -88,6 +115,16 @@ export default function HomeScreen({ navigation, userData }) {
                 animated
               />
             </Pressable>
+            <View className="flex-row">
+            <Pressable onPress={updateData}>
+              <IconButton
+                icon="reload"
+                iconColor='white'
+                size={37}
+                animated
+                className="ml-6"
+              />
+            </Pressable>
             <Pressable onPress={() => navigation.navigate('Notifications')}>
               <IconButton
                 icon="bell-badge"
@@ -96,6 +133,8 @@ export default function HomeScreen({ navigation, userData }) {
                 animated
               />
             </Pressable>
+            </View>
+            
           </View>
 
           <Pressable onPress={() => navigation.navigate('Card Info')}>

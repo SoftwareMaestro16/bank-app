@@ -122,6 +122,7 @@ export default function App() {
           isLoggedIn={isLoggedIn}
           setIsLoggedIn={setIsLoggedIn}
           userData={userData}
+          setUserData={setUserData}
         />
         <Toast config={toastConfig} />
       </View>

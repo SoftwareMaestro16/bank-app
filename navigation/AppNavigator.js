@@ -21,7 +21,7 @@ import TransferScreen from '../screens/additional/TransferScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function MainTabs({ setIsLoggedIn, userData }) {
+function MainTabs({ setIsLoggedIn, userData, setUserData }) {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -57,7 +57,7 @@ function MainTabs({ setIsLoggedIn, userData }) {
           ),
         }}
       >
-        {(props) => <HomeScreen {...props} userData={userData} />}
+        {(props) => <HomeScreen {...props} userData={userData} setUserData={setUserData} />}
       </Tab.Screen>
       <Tab.Screen
         name="History"
@@ -119,14 +119,15 @@ function MainTabs({ setIsLoggedIn, userData }) {
 }
 
 export default function AppNavigator({ isLoggedIn, setIsLoggedIn, userData, setUserData }) {
+  
   const fetchUserData = async () => {
     try {
       const token = await AsyncStorage.getItem('authToken');
       if (token) {
-        const response = await axios.get('https://bank-server-pq6u.onrender.com/user', {
+        const response = await axios.get('https://bank-server-pq6u.onrender.com/auth/me', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setUserData(response.data); // Update userData with fresh data
+        setUserData(response.data); 
       }
     } catch (error) {
       console.error('Error fetching user data:', error.message);
@@ -135,7 +136,7 @@ export default function AppNavigator({ isLoggedIn, setIsLoggedIn, userData, setU
 
   useEffect(() => {
     if (isLoggedIn) {
-      fetchUserData(); // Fetch user data after login
+      fetchUserData(); 
     }
   }, [isLoggedIn]);
 
@@ -156,7 +157,14 @@ export default function AppNavigator({ isLoggedIn, setIsLoggedIn, userData, setU
               name="MainTabs"
               options={{ title: '⠀⠀⠀', headerShown: false }}
             >
-              {(props) => <MainTabs {...props} setIsLoggedIn={setIsLoggedIn} userData={userData} />}
+              {(props) => (
+                <MainTabs
+                  {...props}
+                  setIsLoggedIn={setIsLoggedIn}
+                  userData={userData}
+                  setUserData={setUserData}
+                />
+              )}
             </Stack.Screen>
             <Stack.Screen
               name="Profile"

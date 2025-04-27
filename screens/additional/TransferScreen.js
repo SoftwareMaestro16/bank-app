@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IconButton } from 'react-native-paper';
 
 export default function TransferScreen({ userData }) {
     const [amount, setAmount] = useState('');
@@ -73,7 +74,17 @@ export default function TransferScreen({ userData }) {
             end={{ x: 1, y: 1 }}
             >
             <View className="flex justify-between p-6">
-                <View className="mt-28">
+                <View className="py-20">
+                    <View className='flex-col justify-center items-center'>
+                        <Line className="text-center text-3xl">Transfer Money</Line>
+                        <IconButton
+                            icon="account-cash"
+                            iconColor='white'
+                            size={52}
+                            animated
+                        />
+                    </View>
+
                     <TextInput
                     className="border w-full bg-gray-200 rounded-lg p-3 mb-4"
                     placeholder="Card Number (XXXX XXXX XXXX XXXX)"
